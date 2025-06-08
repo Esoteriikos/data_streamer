@@ -180,8 +180,8 @@ Custom sink logic.
 
 # Project Images
 
-![Dockers](images\dockers.png)
-![Airbyte](images\airbyte1.png)
-![](images\airbyte2.png)
-![Kafka](images\kafka.png)
-![Metabase](images\metabase.png)
+![Dockers](images/dockers.png)
+![Airbyte](images.airbyte1.png)
+![](images/airbyte2.png)
+![Kafka](images/kafka.png)
+![Metabase](images/metabase.png)
