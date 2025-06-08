@@ -58,7 +58,7 @@
 ### Prerequisites
 *   [Docker](https://www.docker.com/products/docker-desktop/) and Docker Compose
 *   A terminal/command line (like PowerShell or Git Bash on Windows)
-*   [abctl](https://docs.airbyte.com/deploying-airbyte/local-deployment) for running Airbyte
+*   [abctl](https://docs.airbyte.com/platform/using-airbyte/getting-started/oss-quickstart) for running Airbyte
 
 ### Step 1: Project Setup
 
