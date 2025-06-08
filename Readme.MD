@@ -3,7 +3,7 @@
 ## Final Architecture
 
 ```plaintext
-(Your PC)
+(YPC)
     │
     ├─ port 8000: Airbyte UI
     ├─ port 9001: Kafdrop UI
@@ -62,7 +62,7 @@
 
 ### Step 1: Project Setup
 
-1.  Create the project directory and the necessary sub-directory for our custom Python code.
+1.  Create the project directory and the necessary sub-directory for  custom Python code.
     ```bash
     mkdir -p data-streamer/python-processor
     cd data-streamer
@@ -75,14 +75,14 @@
 ### Step 2: Populate Project Files
 
 #### `docker-compose.yml`
-This file defines all our core infrastructure services.
+This file defines all core infrastructure services.
 
 
 #### `python-processor/Dockerfile`
-This file builds our custom Python service image.
+This file builds custom Python service image.
 
 #### `python-processor/requirements.txt`
-Dependencies for our Python script.
+Dependencies for Python script.
 
 ```
 kafka-python
@@ -104,7 +104,7 @@ Custom sink logic.
     ```bash
     docker-compose up -d --build
     ```
-    This will build your custom Python image and start all services.
+    This will build ycustom Python image and start all services.
 
 ### Step 4: Configure the Pipeline (One-Time Setup)
 
@@ -153,9 +153,9 @@ Custom sink logic.
     docker exec -it kafka kafka-topics --create --topic pokemon_raw --bootstrap-server kafka:9092 --partitions 1 --replication-factor 1
     ```
 
-2.  **Run the Sync:** In the Airbyte UI, go to your connection and click **Sync now**.
+2.  **Run the Sync:** In the Airbyte UI, go to yconnection and click **Sync now**.
 
-3.  **Watch the Logs:** In your terminal, watch the Python sink do its work.
+3.  **Watch the Logs:** In yterminal, watch the Python sink do its work.
     ```bash
     docker-compose logs -f python-processor
     ```
@@ -174,7 +174,7 @@ Custom sink logic.
     *   **Database name**: `pokemon_db`
     *   **Username**: `user`
     *   **Password**: `password`
-3.  Go to **+ New -> Question**, select your database and the `pokemon_details` table, and start exploring your data!
+3.  Go to **+ New -> Question**, select ydatabase and the `pokemon_details` table, and start exploring ydata!
 
 
 
