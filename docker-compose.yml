@@ -1,0 +1,95 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - data_network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.4.0
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+      - "9094:9094"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:9093,AIRBYTE://0.0.0.0:9094
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093,AIRBYTE://host.docker.internal:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,AIRBYTE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - data_network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: pokemon_db
+    networks:
+      - data_network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  python-processor:
+    build: ./python-processor
+    container_name: python-processor
+    depends_on:
+      - kafka
+      - postgres
+    restart: always 
+    networks:
+      - data_network
+
+# In your docker-compose.yml, after the 'python-processor' service...
+
+  # --- NEW SERVICES FOR PART 4 ---
+  metabase:
+    image: metabase/metabase:v0.49.8
+    container_name: metabase
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+    networks:
+      - data_network
+    volumes:
+      - metabase_data:/metabase-data
+
+
+  kafdrop:
+    image: obsidiandynamics/kafdrop:latest
+    container_name: kafdrop
+    ports:
+      - "9001:9000"
+    depends_on:
+      - kafka
+    environment:
+      KAFKA_BROKERCONNECT: 'kafka:9092'
+      CMD_ARGS: '--message.format=DEFAULT --topic.delete.enabled=true'
+    networks:
+      - data_network
+
+# At the very bottom of the file, in the 'volumes' section...
+# Add these new named volumes
+volumes:
+  postgres_data: # This one should already be here
+  metabase_data:
+
+networks:
+  data_network:
+    driver: bridge
+
