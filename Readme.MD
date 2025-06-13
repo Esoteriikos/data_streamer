@@ -11,7 +11,7 @@
 
     
                    ┌───────────────┐
-                   │   PokéAPI     │  (External Source)
+                   │External Source|
                    └───────┬───────┘
                            │
                            ▼
